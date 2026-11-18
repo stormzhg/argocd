@@ -1,0 +1,36 @@
+# EXAMPLE ONLY: what RUNBOOK.md §4c writes to envs/<env>/environment.yaml.
+# Do not copy it. §4c exports every live environment exactly as it is.
+apiVersion: cloud.microstrategy.com/v1
+kind: MstrEnvironment
+metadata:
+  name: <env>
+  namespace: <env-namespace>
+spec:
+  dbPrecheckEnabled: true
+  dnsEntry: <env-dns-entry>
+  enableIPv6: false
+  environmentSize: 64
+  environmentType: sandbox
+  imagePullSecrets:
+  - <env-image-pull-secret>
+  imageRegistry: <your-registry>
+  imageType: chainguard
+  ingressController:
+    httpsPort: 443
+    type: istio
+  license: ""
+  managedRedis: false
+  managedSearchEngine: false
+  microstrategyVersion: "<VERSION>"
+  persistentVolumeClaimSpecOverrides:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: 100Gi
+    storageClassName: <your-storage-class>
+  restoreFrom:
+    preset: image
+    presetSettings:
+      filePath: /blankmd.tar.gz
+      image: mstr-md:<VERSION>

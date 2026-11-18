@@ -1,0 +1,19 @@
+# SAMPLE ONLY. Replace this whole file with the values exported from YOUR cluster (RUNBOOK.md §4b).
+# Do not hand-write it: any difference from the live release turns the takeover into an upgrade.
+# Only if mstrcli installed managed Elasticsearch (release mstr-elasticsearch).
+image:
+  registry: <your-registry>
+  repository: elasticsearch-service
+  tag: <elasticsearch-service-tag>         # from services.json of your package
+imagePullSecrets:
+- name: mstr-elasticsearch-image-pull-secret
+istioEnabled: true
+utilbox:
+  image:
+    registry: <your-registry>
+    tag: <mstr-utilbox-tag>
+volumeClaimTemplate:
+  storageClassName: <your-storage-class>
+# Required on every upgrade of an existing cluster (mstrcli sets it too): stops the chart
+# injecting cluster.initial_master_nodes, which sends restarted pods back into bootstrap.
+upgrading: true

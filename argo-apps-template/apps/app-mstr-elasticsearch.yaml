@@ -1,0 +1,49 @@
+# =============================================================================
+# Argo CD Application — managed Elasticsearch (elasticsearch chart), ADOPTION of
+# the mstrcli-installed release `mstr-elasticsearch`. See RUNBOOK.md first.
+#
+# Values to set per cluster: repoURL, targetRevision (both sources).
+# Everything else is safety policy — do not remove it.
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mstr-elasticsearch
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"     # before the operator (wave 2)
+    argocd.argoproj.io/compare-options: ServerSideDiff=true   # see app-mstr-operator.yaml
+  # Deliberately NO `resources-finalizer.argocd.argoproj.io`.
+spec:
+  project: default
+  sources:
+    - repoURL: "git@github.com:stormzhg/argocd.git"
+      targetRevision: "main"
+      path: charts/elasticsearch
+      helm:
+        releaseName: mstr-elasticsearch   # MUST equal the live Helm release name
+        valueFiles:
+          - $values/values/elasticsearch-values.yaml
+    - repoURL: "git@github.com:stormzhg/argocd.git"
+      targetRevision: "main"
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mstr-elasticsearch
+  ignoreDifferences:
+    - group: ""                 # random on every render (randAlphaNum, no lookup)
+      kind: Secret
+      name: elasticsearch-master-credentials
+      jsonPointers: [/data/password]
+    - group: ""                 # generated CA/cert if security is ever enabled (lookup)
+      kind: Secret
+      name: elasticsearch-master-certs
+      jsonPointers: [/data]
+  syncPolicy:
+    # MANUAL sync (no 'automated:' block) until a clean adoption is proven.
+    # automated:
+    #   prune: false     # NEVER true
+    #   selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true

@@ -1,0 +1,15 @@
+# SAMPLE ONLY. Replace this whole file with the values exported from YOUR cluster (RUNBOOK.md §4b).
+# Do not hand-write it: any difference from the live release turns the takeover into an upgrade.
+# Only if mstrcli installed KEDA (release mstr-keda).
+global:
+  image:
+    registry: <your-registry>
+image:
+  keda:
+    tag: <keda-tag>
+  metricsApiServer:
+    tag: <keda-tag>
+  webhooks:
+    tag: <keda-tag>
+imagePullSecrets:
+- name: mstr-keda-image-pull-secret

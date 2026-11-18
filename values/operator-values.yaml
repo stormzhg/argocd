@@ -1,0 +1,16 @@
+global:
+  certificate:
+    duration: 17520h
+  image:
+    registry: mstrcmcprod.azurecr.io
+  imagePullSecrets:
+  - mstr-operator-default-image-pull-secret
+  storageClassName: nfs-client-provisioner-storage-class
+  watchedNamespaces: n1,mstr-redis,mstr-elasticsearch
+mstrCustomer: {}
+telemetry:
+  serverUrl: https://cmc-portal.microstrategy.com/
+weblayer:
+  image:
+    repository: null
+    tag: null

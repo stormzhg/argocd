@@ -1,0 +1,69 @@
+apiVersion: cloud.microstrategy.com/v1
+kind: MstrEnvironment
+metadata:
+  name: e1
+  namespace: n1
+spec:
+  dbPrecheckEnabled: true
+  dnsEntry: cmc-lb.hypernow.microstrategy.com
+  enableIPv6: false
+  environmentSize: 64
+  environmentType: enterprise
+  imagePullSecrets:
+  - docker-registry-secret-3207f1
+  imageRegistry: mstrcmcprod.azurecr.io
+  imageType: chainguard
+  ingressController:
+    cloudLBConfiguration:
+      name: cloud-lb
+      service:
+        annotations: {}
+        nodePorts:
+          http: ""
+        type: LoadBalancer
+    httpsPort: 443
+    tlsSecretName: domain-secret-b62e30
+    type: istio
+  license: ""
+  managedRedis: true
+  managedSearchEngine: true
+  microstrategyVersion: "26.10"
+  multiWebappsConfigMapName: mstr-multi-webapps-configmap
+  networkPolicies:
+    dnsPort: 53
+  persistentVolumeClaimSpecOverrides:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: 200Gi
+    storageClassName: nfs-client-provisioner-storage-class
+  remoteDatabase:
+    enableSsl: true
+    host: 35.245.28.187
+    port: 5432
+    secretName: database-secret-ab799d
+    validateServerCertificate: true
+  remoteRedis:
+    enableSsl: false
+    host: mstr-redis-redis-cluster.mstr-redis.svc
+    mode: cluster
+    port: 6379
+    secretName: redis-credentials-redisuser.e1
+    sharedRedis: true
+  restoreFrom:
+    preset: gcs
+    presetSettings:
+      url: gs://cvs-md/MediTech_LIVE_Before_LHO.tar.gz
+    restoreAnnotations:
+      iam.gke.io/gcp-service-account: gcp-cmc-sa@con-cmc.iam.gserviceaccount.com
+    serviceAccountName: e1-gs-sa
+  serviceConfigOverrides:
+  - name: mstrbak
+    resources:
+      limits:
+        memory: 10Gi
+      requests:
+        memory: 10Gi
+  volumePermissions:
+    enabled: true

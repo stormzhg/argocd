@@ -1,0 +1,5 @@
+global:
+  imagePullSecrets:
+  - mstr-redis-image-pull-secret
+  imageRegistry: mstrcmcprod.azurecr.io
+  storageClass: nfs-client-provisioner-storage-class

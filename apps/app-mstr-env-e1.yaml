@@ -1,0 +1,26 @@
+# Argo CD Application for environment n1/e1 (adoption). See RUNBOOK.md §5 and §8.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mstr-env-e1
+  namespace: argocd
+  annotations:
+    # Wave 3: after the operator (wave 2).
+    argocd.argoproj.io/sync-wave: "3"
+    # See RUNBOOK.md §5.
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
+    # NO resources-finalizer: deleting this Application must never delete the environment.
+spec:
+  project: default
+  source:
+    repoURL: "git@github.com:stormzhg/argocd.git"
+    targetRevision: "main"
+    path: envs/e1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n1
+  syncPolicy:
+    # MANUAL sync. Keep environments on manual sync: see RUNBOOK.md §8.
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true

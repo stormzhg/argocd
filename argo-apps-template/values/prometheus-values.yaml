@@ -1,0 +1,75 @@
+# SAMPLE ONLY. Replace this whole file with the values exported from YOUR cluster (RUNBOOK.md §4b).
+# Do not hand-write it: any difference from the live release turns the takeover into an upgrade.
+# Only if mstrcli installed Prometheus (release mstr-prometheus).
+alertmanager:
+  enabled: false
+global:
+  imagePullSecrets:
+  - name: mstr-prometheus-image-pull-secret
+  imageRegistry: <your-registry>
+grafana:
+  enabled: false
+kube-state-metrics:
+  image:
+    repository: kube-state-metrics
+    tag: <tag>
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+prometheus:
+  prometheusSpec:
+    image:
+      tag: <tag>
+    podMonitorSelectorNilUsesHelmValues: false
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 8Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
+prometheus-node-exporter:
+  image:
+    tag: <tag>
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+prometheusOperator:
+  admissionWebhooks:
+    patch:
+      image:
+        tag: <tag>
+      resources:
+        limits:
+          cpu: 200m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+  image:
+    tag: <tag>
+  prometheusConfigReloader:
+    image:
+      tag: <tag>
+    resources:
+      limits:
+        cpu: 200m
+        memory: 100Mi
+      requests:
+        cpu: 100m
+        memory: 50Mi
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi

@@ -1,0 +1,13 @@
+image:
+  registry: mstrcmcprod.azurecr.io
+  repository: elasticsearch-service
+  tag: cgr-m2610-.-11.6.1000.00055-2026101122
+imagePullSecrets:
+- name: mstr-elasticsearch-image-pull-secret
+istioEnabled: true
+utilbox:
+  image:
+    registry: mstrcmcprod.azurecr.io
+    tag: cgr-m2610-.-11.6.1000.00046
+volumeClaimTemplate:
+  storageClassName: nfs-client-provisioner-storage-class

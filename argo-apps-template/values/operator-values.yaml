@@ -1,0 +1,14 @@
+# SAMPLE ONLY. Replace this whole file with the values exported from YOUR cluster (RUNBOOK.md §4b).
+# Do not hand-write it: any difference from the live release turns the takeover into an upgrade.
+# The customer profile is NOT stored here (mstrCustomer stays {}); it stays in the cluster.
+global:
+  certificate:
+    duration: 17520h
+  image:
+    registry: <your-registry>              # e.g. myregistry.azurecr.io
+  imagePullSecrets:
+  - mstr-operator-default-image-pull-secret
+  storageClassName: <your-storage-class>
+mstrCustomer: {}
+telemetry:
+  serverUrl: <your-telemetry-url>          # keep exactly as exported, including a trailing /

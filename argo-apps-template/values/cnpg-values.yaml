@@ -1,0 +1,9 @@
+# SAMPLE ONLY. Replace this whole file with the values exported from YOUR cluster (RUNBOOK.md §4b).
+# Do not hand-write it: any difference from the live release turns the takeover into an upgrade.
+# Only if mstrcli installed the CloudNativePG operator (release mstr-cloudnative-pg-operator).
+# The real export is long (the full chart defaults); keep it as exported.
+image:
+  repository: <your-registry>/cnpg-operator
+  tag: <cnpg-tag>
+imagePullSecrets:
+- name: mstr-cloudnative-pg-operator-image-pull-secret
