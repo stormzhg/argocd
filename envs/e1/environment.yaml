@@ -65,5 +65,11 @@ spec:
         memory: 10Gi
       requests:
         memory: 10Gi
+  - name: iserver	
+    resources:	
+      limits:	
+        memory: 50Gi	
+      requests:	
+        memory: 50Gi
   volumePermissions:
     enabled: true
